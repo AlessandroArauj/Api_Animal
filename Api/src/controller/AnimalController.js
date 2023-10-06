@@ -100,6 +100,8 @@ server.post('/animal', async(req, resp) =>{
 
     try {
         const Animal = req.body;
+        console.log(Animal);
+
         const res = await InserirAnimal(Animal);
 
         resp.send(res)

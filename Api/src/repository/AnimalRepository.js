@@ -101,7 +101,8 @@ export async function Dieta() {
 
     const comando = `
 
-    select nm_dieta    as Dieta
+    select nm_dieta    as Dieta,
+           id_dieta     as id
      from tb_dieta_alimentar
     
     `
@@ -115,7 +116,8 @@ export async function SexoAnimal() {
 
     const comando = `
 
-    select nm_genero    as Sexo
+    select nm_genero    as Sexo,
+           id_genero    as id
      from tb_genero
     
     `

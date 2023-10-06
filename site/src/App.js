@@ -22,8 +22,8 @@ function App() {
 
     setEspecie(item.nm_animal);
     setIdade(item.ds_idade);
-    setDieta(item.id_dieta);
-    setSexo(item.id_sexo)
+    setDietaSelecionada(item.id_dieta);
+    setSelecionado(item.id_sexo)
     setId(item.id_animal)
   }
 
@@ -55,19 +55,6 @@ function App() {
 
     try {
 
-      let dietaId;
-
-      if (dietaSelecionada === 'Herbivoro') {
-        dietaId = 1
-      
-      }
-
-
-      else if (dietaSelecionada === 'Carnivoro') {
-        dietaId = 2
-      
-      }
-
       let generoId;
 
       if (sexoSelecionado === 'Macho') {
@@ -77,8 +64,8 @@ function App() {
 
       let Animais = {
 
-        genero: generoId,
-        dieta: dietaId,
+        genero: sexoSelecionado,
+        dieta: dietaSelecionada,
         nome: especie,
         idade: idade
 
@@ -98,12 +85,11 @@ function App() {
 
       BuscarAnimais()
 
-      setSexo('');
-      setDieta('');
+     
       setEspecie('');
       setIdade('');
-      setDietaSelecionada('');
-      setSelecionado('');
+      setDietaSelecionada(0);
+      setSelecionado(0);
 
 
 
@@ -130,16 +116,12 @@ function App() {
   useEffect(() => {
     //
     listarGenero();
-
-
-  })
+  }, [])
 
   useEffect(() => {
     //
     listarDieta();
-
-
-  })
+  }, [])
 
 
 
@@ -164,8 +146,6 @@ function App() {
               <select id='Sexo' name='Sexo' value={sexoSelecionado} onChange={e => setSelecionado(e.target.value)}>
                 <option value={0}> Selecione </option>
                 {sexo.map(item =>
-
-
                   <option value={item.id}> {item.Sexo} </option>
                 )}
 
