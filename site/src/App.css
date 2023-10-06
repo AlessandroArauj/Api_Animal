@@ -1,6 +1,7 @@
 *{
     margin: 0px;
     box-sizing: border-box;
+    background-color: #333;
   }
   
   
@@ -99,7 +100,7 @@
     width: 450px;
     height: 35px;
     border-radius: 15px;
-    border: #fff solid 1px;
+    border: none;
     padding: 10px;
   
   }
@@ -111,7 +112,7 @@
     background-color: #fff;
   }
   
-  .f2 label input{
+  .f2 label button{
     background-color: transparent;
     color: #fff;
     width: 100%;
@@ -122,5 +123,7 @@
   .f2 label img{
     width: 30px;
     height: 30px;
+    
+    cursor: pointer;
   }
   

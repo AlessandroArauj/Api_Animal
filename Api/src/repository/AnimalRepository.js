@@ -1,6 +1,27 @@
 import { con } from "./connection.js";
 
-export async function ExcluirAnimal()
+export async function BuscarTudo(){
+    const comando = `
+        select * from tb_animal    
+        
+    `
+
+    const [ resp ] = await con.query(comando);
+    return resp
+
+}
+
+export async function ExcluirAnimal(id) {
+    const comando = `
+        delete from tb_animal
+        where id_animal = ?
+    
+    `
+
+    const [resp] = await con.query(comando, [id]);
+    return resp.affectedRows
+
+}
 
 export async function AlterarAnimal(animal, id) {
     const comando = `
@@ -29,7 +50,7 @@ export async function AlterarAnimal(animal, id) {
 
 }
 
-export async function ConsultarAnimal(nome) {
+export async function ConsultarAnimal() {
 
     const comando = `
 
@@ -45,11 +66,10 @@ INNER JOIN
     tb_genero AS G ON A.id_genero = G.id_genero
 INNER JOIN
     tb_dieta_alimentar AS D ON A.id_dieta = D.id_dieta
-WHERE
-    A.nm_animal LIKE ?;
+
     `
 
-    const [resp] = await con.query(comando, ['%' + nome + '%']);
+    const [resp] = await con.query(comando);
     return resp
 
 }
