@@ -1,8 +1,23 @@
 import { Router } from "express";
-import { ConsultarAnimal, InserirAnimal } from "../repository/AnimalRepository.js";
+import { ConsultarAnimal, InserirAnimal, SexoAnimal } from "../repository/AnimalRepository.js";
 
 
 const server = Router();
+
+
+server.get('/animal/sexos', async(req, resp) =>{
+
+    try {
+        const resposta = await SexoAnimal();
+        resp.send(resposta)
+
+    } catch (err) {
+        resp.status(400).send({
+            erro: 'Ocorreu um Erro'
+        })
+    }
+
+})
 
 server.get('/animal/nome', async(req, resp) =>{
 

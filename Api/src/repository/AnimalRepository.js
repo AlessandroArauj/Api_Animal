@@ -46,3 +46,18 @@ export async function InserirAnimal(Animal){
     return resp;
 
 }
+
+
+export async function SexoAnimal(){
+
+    const comando = `
+
+    select nm_genero    as Sexo
+     from tb_genero
+    
+    `
+
+    const [resp] = await con.query(comando);
+    return resp;
+
+}
