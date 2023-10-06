@@ -1,22 +1,52 @@
 import { con } from "./connection.js";
 
-export async function ConsultarAnimal(nome){
+export async function ExcluirAnimal()
+
+export async function AlterarAnimal(animal, id) {
+    const comando = `
+        update tb_animal
+        set
+            id_genero       =?,
+            id_dieta        =?,
+            nm_animal       =?,
+            ds_idade        =?
+
+        where id_animal     =?
+    
+    `
+
+    const [resp] = await con.query(comando, [
+
+        animal.genero,
+        animal.dieta,
+        animal.nome,
+        animal.idade,
+        id
+
+    ])
+
+    return resp.affectedRows;
+
+}
+
+export async function ConsultarAnimal(nome) {
 
     const comando = `
 
-        select
-            id_animal                   as Id,
-            id_genero                   as Sexo,
-            id_dieta                    as Dieta,
-            nm_animal                   as Animal,
-            ds_idade                    as Idade
-
-        from tb_animal                  as Animais
-        inner join tb_genero            as P    on animal.id_genero = P.id_genero
-        inner join tb_dieta_alimentar   as M    on animal.id_dieta = M.id_dieta
-
-        where   nm_animal like ?
-
+    SELECT
+    A.id_animal AS Id,
+    G.nm_genero AS Sexo,
+    D.nm_dieta AS Dieta,
+    A.nm_animal AS Animal,
+    A.ds_idade AS Idade
+FROM
+    tb_animal AS A
+INNER JOIN
+    tb_genero AS G ON A.id_genero = G.id_genero
+INNER JOIN
+    tb_dieta_alimentar AS D ON A.id_dieta = D.id_dieta
+WHERE
+    A.nm_animal LIKE ?;
     `
 
     const [resp] = await con.query(comando, ['%' + nome + '%']);
@@ -24,7 +54,7 @@ export async function ConsultarAnimal(nome){
 
 }
 
-export async function InserirAnimal(Animal){
+export async function InserirAnimal(Animal) {
 
     const comando = `
     
@@ -47,8 +77,21 @@ export async function InserirAnimal(Animal){
 
 }
 
+export async function Dieta() {
 
-export async function SexoAnimal(){
+    const comando = `
+
+    select nm_dieta    as Dieta
+     from tb_dieta_alimentar
+    
+    `
+
+    const [resp] = await con.query(comando);
+    return resp;
+
+}
+
+export async function SexoAnimal() {
 
     const comando = `
 

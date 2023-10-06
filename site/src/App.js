@@ -6,13 +6,21 @@ function App() {
   const [sexo, setSexo] = useState([]);
   const [sexoSelecionado, setSelecionado] = useState(0);
 
+  const [dieta, setDieta] = useState([]);
+  const [dietaSelecionada, setDietaSelecionada] = useState(0);
+
   const [especie, setEspecie] = useState('');
   const [idade, setIdade] = useState('');
-  const [dieta, setDieta] = useState('');
   const [id, setId] = useState(0);
   
 
   const [erro, setErro] = useState('');
+
+  async function listarDieta() {
+    let r = await axios.get('http://localhost:5000/animal/dieta');
+    setDieta(r.data);
+  
+  }
 
   async function listarGenero() {
     let r = await axios.get('http://localhost:5000/animal/sexos');
@@ -20,6 +28,12 @@ function App() {
 
   }
 
+  async function removerAnimal(id) {
+    let r = await axios.delete('http://localhost:5000/animal/delete/' + id)
+    alert('animal foi excluido')
+
+    BuscarAnimais()
+  }
 
 
   async function Salvar(){
@@ -40,6 +54,21 @@ function App() {
         alert('Animal Cadastrado')
         }
 
+        else {
+          let r = await axios.put('http://localhost:5000/animal/altera', Animais)
+          alert('Animal foi alterado')
+        }
+
+
+        BuscarAnimais()
+
+        setSexo('');
+        setDieta('');
+        setEspecie('');
+        setIdade('');
+        setDietaSelecionada(0);
+        setSelecionado(0);
+
       
       
 
@@ -49,9 +78,24 @@ function App() {
   
   }
 
+
+  async function BuscarAnimais() {
+  
+    let r = await axios.get('http://localhost:5000/animal/nome?nome=' + busca);
+    setListaAnimal(r.data);
+  
+  }
+
   useEffect(() => {
     //
     listarGenero();
+  
+  
+  })
+
+  useEffect(() => {
+    //
+    listarDieta();
   
   
   })
@@ -90,7 +134,15 @@ function App() {
               <input type='text' />
 
               <p>Dieta Alimentar</p>
-              <input></input>
+              <select id='Dieta' name='Dieta' value={dietaSelecionada} onChange={e => setDietaSelecionada(e.target.value)}>
+                  <option value={0}> Selecione </option>
+                  {dieta.map(item =>
+                    
+
+                    <option value={item.id}> {item.Dieta} </option>
+                    )}
+
+              </select>
             </div>
           </div>
 
