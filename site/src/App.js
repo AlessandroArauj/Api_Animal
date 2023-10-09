@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './App.scss';
 import axios from 'axios'
 
 
 function App() {
   const [sexo, setSexo] = useState([]);
-  const [sexoSelecionado, setSelecionado] = useState('');
+  const [sexoSelecionado, setSelecionado] = useState(0);
 
   const [dieta, setDieta] = useState([]);
-  const [dietaSelecionada, setDietaSelecionada] = useState('');
+  const [dietaSelecionada, setDietaSelecionada] = useState(0);
 
   const [especie, setEspecie] = useState('');
   const [idade, setIdade] = useState('');
@@ -20,11 +20,18 @@ function App() {
 
   function AlterarAnimal(item) {
 
-    setEspecie(item.nm_animal);
-    setIdade(item.ds_idade);
-    setDietaSelecionada(item.id_dieta);
-    setSelecionado(item.id_sexo)
-    setId(item.id_animal)
+    try {
+    setEspecie(item.Animal);
+    setIdade(item.Idade);
+    setDietaSelecionada(item.Dieta);
+    setSelecionado(item.Sexo);
+    setId(item.Id)
+    
+
+    
+    } catch (err) {
+      alert(err.response.data.erro)
+    }
   }
 
   async function listarDieta() {
@@ -55,13 +62,6 @@ function App() {
 
     try {
 
-      let generoId;
-
-      if (sexoSelecionado === 'Macho') {
-        generoId = 1;} 
-        else if (sexoSelecionado === 'Fêmea') {
-        generoId = 2;}
-
       let Animais = {
 
         genero: sexoSelecionado,
@@ -78,7 +78,7 @@ function App() {
       }
 
       else {
-        let r = await axios.put('http://localhost:5000/animal/altera/' + id , Animais)
+        let r = await axios.put('http://localhost:5000/animal/altera/'+ id, Animais)
         alert('Animal foi alterado')
       }
 
@@ -90,6 +90,7 @@ function App() {
       setIdade('');
       setDietaSelecionada(0);
       setSelecionado(0);
+      setId(0);
 
 
 
@@ -189,33 +190,34 @@ function App() {
         <div className='line2' />
 
 
-        <table>
+        <table className='tabela'>
           <thead>
 
-            <tr>
+            <tr className='TabNomes'>
 
-              <th>Espécie</th>
-              <th>Idade</th>
-              <th>Sexo</th>
-              <th>Dieta</th>
+              <th className='nametab'>Identificação</th>
+              <th className='nametab'>Espécie</th>
+              <th className='nametab'>Idade</th>
+              <th className='nametab'>Sexo</th>
+              <th className='nametab'>Dieta</th>
 
 
             </tr>
 
           </thead>
-          <tbody>
+          <tbody className='tbody'>
             {busca.map(item =>
 
-              <tr>
+              <tr className='trzin'>
 
-                
-                  <td>{item.Sexo}</td>
-                  <td>{item.Dieta}</td>
-                  <td>{item.Animal}</td>
-                  <td>{item.Idade}</td>
-                  <td className='btns' style={{ display: 'flex', height: 20 }}>
+                  <td className='buscas'>{item.Id}</td>
+                  <td className='buscas'>{item.Animal}</td>
+                  <td className='buscas'>{item.Idade}</td>
+                  <td className='buscas'>{item.Sexo}</td>
+                  <td className='buscas'>{item.Dieta}</td>
+                  <td className='btns'>
                       <p onClick={() => AlterarAnimal(item)}>Alterar</p>
-                      <p onClick={() => removerAnimal(item.id_animal)}>Remover</p>
+                      <p onClick={() => removerAnimal(item.Id)}>Remover</p>
                   </td>
 
                 
